@@ -28,4 +28,4 @@ ADD start_new.sh /usr/sbin/start_new
 RUN chmod a+x /usr/sbin/start_new && \
     chmod 775 /usr/sbin/start_new
 RUN dos2unix /home/copiler/*.sh
-USER root
+USER copilador

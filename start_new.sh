@@ -9,8 +9,8 @@ echo "Diretorio para Uploads: $uploadssh23"
 # echo "$HOMEDIR"
 echo "Diretorio Principal: $DIR2"
 #
-[ -z $URL ] && URL='https://git.openwrt.org/openwrt/openwrt.git'
-[ -z $BRANCH ] && BRANCH='master'
+[ -z $URL ] && echo 'not informed url repo, using git.openwrt.org'; URL='https://git.openwrt.org/openwrt/openwrt.git'
+[ -z $BRANCH ] && echo 'not informed brach, using master' BRANCH='master'
 #
 export REPO_URL="$(echo "$URL")"
 export REPO_BRANCH="$(echo "$BRANCH")"
