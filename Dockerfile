@@ -1,19 +1,13 @@
 FROM ubuntu:latest
 LABEL maintainer="srherobrine20@gmail.com"
 LABEL description="Openwrt AutoBuild para docker e CI/CD (Depende se dão suporte a imagens docker)"
-RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y curl
-RUN apt-get update && apt-get install sudo
-RUN groupadd -g 999 copilador && \
-    useradd -r -u 999 -g copilador copilador
-RUN usermod -aG sudo copilador
-RUN echo "copilador    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-RUN apt-get -qq update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -qq install dos2unix git rsync mkisofs $(curl -fsSL https://raw.githubusercontent.com/P3TERX/openwrt-list/master/depends-ubuntu-2004) && \
+RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt install -y curl sudo && \
+    DEBIAN_FRONTEND=noninteractive apt -y install dos2unix git rsync mkisofs $(curl -fsSL https://raw.githubusercontent.com/P3TERX/openwrt-list/master/depends-ubuntu-2004) && \
     apt-get -qq autoremove --purge
-RUN mkdir /home/copiler/
-RUN chmod 777 /home/copiler/
-RUN mkdir /workdir/
-RUN chmod 777 /workdir/
+RUN groupadd -g 999 copilador && useradd -r -u 999 -g copilador copilador && usermod -aG sudo copilador
+RUN echo "copilador    ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN mkdir /home/copiler/ && chmod 777 /home/copiler/
+RUN mkdir /__w/ && chown copilador:copilador /__w/ && chmod 777 /__w/
 ADD 1.sh /home/copiler/1.sh
 ADD 2.sh /home/copiler/2.sh
 ADD 3.sh /home/copiler/3.sh

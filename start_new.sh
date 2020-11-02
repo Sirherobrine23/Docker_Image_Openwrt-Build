@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ $USER == 'root' ] ;then
+    echo 'Usando usuario root !CUIDADO!'
+    FORCE_UNSAFE_CONFIGURE=1
+fi
 # importando e exportando as configurações
 echo "Seu diretorio da copilação inicial é: $(pwd)"
 export DIR2="$(pwd)"
