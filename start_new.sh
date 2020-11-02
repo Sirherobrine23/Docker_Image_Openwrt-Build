@@ -28,9 +28,10 @@ echo "Arquivo de custumização P1: $DIY_P1_SH"
 echo "Arquivo de custumização P2: $DIY_P2_SH"
 echo "a pasta do arquivos pós copilação sera: $uploadssh23"
 mkdir publics/
-cp -rf "$P1" /home/copiler/
-cp -rf "$P2" /home/copiler/
-cp -rf "$FEED_FILE" /home/copiler/
+# cp -rf "$P1" /home/copiler/
+# cp -rf "$P2" /home/copiler/
+# cp -rf "$FEED_FILE" /home/copiler/
+cp -rf . /home/copiler/
 # chamando o copilador
 cd /home/copiler/
 clone(){
