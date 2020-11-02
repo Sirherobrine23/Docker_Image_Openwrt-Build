@@ -1,8 +1,4 @@
 #!/bin/bash
-if [ $USER == 'root' ] ;then
-    echo 'Usando usuario root !CUIDADO!'
-    FORCE_UNSAFE_CONFIGURE=1
-fi
 # importando e exportando as configurações
 echo "Seu diretorio da copilação inicial é: $(pwd)"
 export DIR2="$(pwd)"
@@ -87,5 +83,13 @@ final(){
     echo "You files to Upload"
     ls 
 }
+USS="$(whoami)"
+if [ $USS = 'root' ];then
+    echo 'root !WARNING!'
+    FORCE_UNSAFE_CONFIGURE=1
+    clone && p1 && update && update_install && p2 && make_download && make_copiler && final
+else
+    echo 'Not ROOT'
+    clone && p1 && update && update_install && p2 && make_download && make_copiler && final
+fi
 
-clone && p1 && update && update_install && p2 && make_download && make_copiler && final
