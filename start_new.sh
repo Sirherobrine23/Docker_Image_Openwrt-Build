@@ -31,12 +31,13 @@ mkdir publics/
 # cp -rf "$P1" /home/copiler/
 # cp -rf "$P2" /home/copiler/
 # cp -rf "$FEED_FILE" /home/copiler/
-cp -rf . /home/copiler/
+cp -rfv . /home/copiler/
 # chamando o copilador
 cd /home/copiler/
 clone(){
     df -hT $(pwd)
     git clone --depth 1 $REPO_URL -b $REPO_BRANCH /home/copiler/openwrt
+    status1=1
 }
 p1(){
     [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -44,16 +45,19 @@ p1(){
     cd /home/copiler/openwrt
     /home/copiler/$DIY_P1_SH
     cd /home/copiler/
+    status2=1
 }
 update(){
     cd /home/copiler/openwrt 
     ./scripts/feeds update -a
     cd /home/copiler/
+    status3=1
 }
 update_install(){
     cd /home/copiler/openwrt
     ./scripts/feeds install -a
     cd /home/copiler/
+    status4=1
 }
 p2(){
     [ -e files ] && mv files openwrt/files
@@ -62,6 +66,7 @@ p2(){
     cd /home/copiler/openwrt
     /home/copiler/$DIY_P2_SH
     cd /home/copiler/
+    status5=1
 }
 make_download(){
     cd /home/copiler/openwrt
@@ -70,27 +75,64 @@ make_download(){
     find dl -size -1024c -exec ls -l {} \;
     find dl -size -1024c -exec rm -f {} \;
     cd /home/copiler/
+    status6=1
 }
 make_copiler(){
     cd /home/copiler/openwrt
     echo -e "$(nproc) thread compile"
     make -j$(nproc) || make -j1 || make -j1 V=s
     cd /home/copiler/
+    status7=1
 }
 final(){
     cd /home/copiler/openwrt/bin/targets/*/*
     rm -rf packages
     mv * $uploadssh23
     echo "You files to Upload"
-    ls 
+    ls
+    status8=1
 }
-USS="$(whoami)"
-if [ $USS = 'root' ];then
-    echo 'root !WARNING!'
-    FORCE_UNSAFE_CONFIGURE=1
-    clone && p1 && update && update_install && p2 && make_download && make_copiler && final
+# status1-8=1
+echo 'root !WARNING!'
+export FORCE_UNSAFE_CONFIGURE=1
+clone 
+if [ $status1 == '1' ];then
+    p1
+    if [ $status2 == '1' ];then
+        update
+        if [ $status3 == '1' ];then
+            update_install 
+            if [ $status4 == '1' ];then
+                p2
+                if [ $status5 == '1' ];then
+                    make_download
+                    if [ $status6 == '1' ];then
+                        make_copiler
+                        if [ $status7 == '1' ];then
+                            final
+                            if [ $status8 == '1' ];then
+                                exit 0
+                            else
+                                exit 134
+                            fi
+                        else
+                            exit 133
+                        fi
+                    else
+                        exit 132
+                    fi
+                else
+                    exit 131
+                fi
+            else
+                exit 130
+            fi
+        else
+            exit 129
+        fi
+    else
+     exit 128
+    fi
 else
-    echo 'Not ROOT'
-    clone && p1 && update && update_install && p2 && make_download && make_copiler && final
+    exit 127
 fi
-
