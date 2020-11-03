@@ -31,7 +31,8 @@ mkdir publics/
 # cp -rf "$P1" /home/copiler/
 # cp -rf "$P2" /home/copiler/
 # cp -rf "$FEED_FILE" /home/copiler/
-cp -rfv . /home/copiler/
+rm -rf .git*
+cp -rf . /home/copiler/
 # chamando o copilador
 cd /home/copiler/
 clone(){
@@ -93,10 +94,6 @@ make_copiler(){
 final(){
     cd /home/copiler/openwrt/bin/targets/*/*
     rm -rfv packages *.squashfs *.manifest *lzma.bin *.elf *vmlinux.bin *vmlinux.lzma
-    FILESUP="$(ls)"
-    zip ../upload.zip -r ./
-    rm -rfv *
-    mv -rfv ../upload.zip ./
     cp -rfv * $uploadssh23
     echo "You files to Upload"
     echo "$FILESUP"
