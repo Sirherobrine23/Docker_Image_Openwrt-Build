@@ -86,13 +86,14 @@ make_copiler(){
 }
 final(){
     cd /home/copiler/openwrt/bin/targets/*/*
-    rm -rf packages
+    rm -rfv packages *.squashfs *.manifest *lzma.bin *.elf *vmlinux.bin *vmlinux.lzma
+    FILESUP="$(ls)"
     zip ../upload.zip -r ./
     rm -rfv *
     mv -rfv ../upload.zip ./
     cp -rfv * $uploadssh23
     echo "You files to Upload"
-    ls
+    echo "$FILESUP"
     status8=1
 }
 # status1-8=1
