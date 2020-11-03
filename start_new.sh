@@ -95,8 +95,7 @@ final(){
     cd /home/copiler/openwrt/bin/targets/*/*
     rm -rfv packages *.squashfs *.manifest *lzma.bin *.elf *vmlinux.bin *vmlinux.lzma
     cp -rfv * $uploadssh23
-    echo "You files to Upload"
-    echo "$FILESUP"
+    ln -s /home/copiler/openwrt $DIR2/openwrt
     status8=1
 }
 # status1-8=1
