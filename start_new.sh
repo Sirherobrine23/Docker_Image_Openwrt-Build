@@ -49,13 +49,13 @@ p1(){
 }
 update(){
     cd /home/copiler/openwrt 
-    ./scripts/feeds update -a
+    ./scripts/feeds update -a &> /home/copiler/log_update.txt
     cd /home/copiler/
     status3=1
 }
 update_install(){
     cd /home/copiler/openwrt
-    ./scripts/feeds install -a
+    ./scripts/feeds install -a &> /home/copiler/log_install.txt
     cd /home/copiler/
     status4=1
 }
@@ -80,7 +80,13 @@ make_download(){
 make_copiler(){
     cd /home/copiler/openwrt
     echo -e "$(nproc) thread compile"
-    make -j$(nproc) || make -j1 || make -j1 V=s
+    make -j$(nproc) || build1='1'
+        if [ $build1 == '1' ];then
+            make -j1 || build2='1'
+            if [ $build2 == '1' ];then
+                make -j1 V=s
+            fi
+        fi
     cd /home/copiler/
     status7=1
 }
