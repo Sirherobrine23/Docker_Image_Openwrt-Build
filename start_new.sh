@@ -87,7 +87,10 @@ make_copiler(){
 final(){
     cd /home/copiler/openwrt/bin/targets/*/*
     rm -rf packages
-    mv * $uploadssh23
+    zip ../upload.zip -r ./
+    rm -rfv *
+    mv -rfv ../upload.zip ./
+    cp -rfv * $uploadssh23
     echo "You files to Upload"
     ls
     status8=1
