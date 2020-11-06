@@ -93,7 +93,7 @@ make_copiler(){
 }
 final(){
     cd /home/copiler/openwrt/bin/targets/*/*
-    rm -rfv packages *.squashfs *.manifest *lzma.bin *.elf *vmlinux.bin *vmlinux.lzma
+    rm -rfv packages
     cp -rfv * $uploadssh23
     ln -s /home/copiler/openwrt $DIR2/openwrt
     status8=1
